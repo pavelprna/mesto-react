@@ -18,6 +18,7 @@ function Main(props) {
       .catch(err => Error(err));
     api.getInitialCards()
       .then(cards => setCards(cards))
+      .catch(err => Error(err));
   }, [])
 
   return (
@@ -27,27 +28,29 @@ function Main(props) {
         <button
           onClick={props.onEditAvatar}
           className="button profile__avatar-button">
-          <img src={userAvatar} alt=" " className="profile__avatar" />
+          <img src={userAvatar} alt=" " className="profile__avatar"/>
         </button>
         <div className="profile__info">
           <h1 className="profile__title">{userName}</h1>
           <button
             onClick={props.onEditProfile}
-            className="profile__edit-button button" />
+            className="profile__edit-button button"/>
           <p className="profile__subtitle">{userDescription}</p>
         </div>
         <button
           onClick={props.onAddPlace}
-          type="button" className="profile__add-button button" />
+          type="button" className="profile__add-button button"/>
       </section>
 
       <section className="elements" aria-label="Карточки мест">
         <ul className="elements__list">
           {cards.map(item => {
             return (
-              <li className="elements__list-item" key={item._id}>
-                <Card card={item} onCardClick={props.onCardClick}/>
-              </li>
+              <Card
+                card={item}
+                onCardClick={props.onCardClick}
+                key={item._id}
+              />
             )
           })}
         </ul>
