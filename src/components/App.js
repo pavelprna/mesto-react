@@ -46,7 +46,12 @@ function App() {
       />
       <Footer />
 
-      <PopupWithForm name={'edit-profile'} title={'Редактировать профиль'} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm
+        name={'edit-profile'}
+        title={'Редактировать профиль'}
+        buttonText={'Сохранить'}
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}>
         <label htmlFor="name-input" className="form__label">
           <input type="text" name="name" id="name-input" placeholder="Имя" className="form__input" minLength="2" maxLength="40"
                  required />
@@ -59,7 +64,12 @@ function App() {
         </label>
       </PopupWithForm>
 
-      <PopupWithForm name={'avatar'} title={'Обновить аватар'} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm
+        name={'avatar'}
+        title={'Обновить аватар'}
+        buttonText={'Изменить'}
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}>
         <label htmlFor="avatar-link-input" className="form__label">
           <input type="url" name="avatar" id="avatar-link-input" placeholder="Ссылка на картинку"
                  className="form__input" required />
@@ -67,7 +77,12 @@ function App() {
         </label>
       </PopupWithForm>
 
-      <PopupWithForm name={'add-card'} title={'Новое место'} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm
+        name={'add-card'}
+        title={'Новое место'}
+        buttonText={'Добавить'}
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}>
         <label htmlFor="place-name-input" className="form__label">
           <input type="text" name="name" id="place-name-input" placeholder="Название" className="form__input"
                  minLength="2" required />
@@ -80,7 +95,7 @@ function App() {
         </label>
       </PopupWithForm>
 
-      <PopupWithForm name='confirmation' title={'Вы уверены?'} onClose={closeAllPopups}/>
+      <PopupWithForm name='confirmation' title={'Вы уверены?'} buttonText={'Да'} onClose={closeAllPopups}/>
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
