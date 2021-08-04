@@ -69,6 +69,10 @@ class Api {
     });
   }
 
+  changeLikeCardStatus(cardId, status) {
+    return status ? this.likeCard(cardId) : this.unlikeCard(cardId);
+  }
+
   changeAvatar(link) {
     return this._request({
       method: 'PATCH',
