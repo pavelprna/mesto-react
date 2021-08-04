@@ -24,3 +24,7 @@ yarn-error.log*
 
 # editor
 /.idea
+
+# locks
+package-lock.json
+yarn.lock
