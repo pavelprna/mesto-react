@@ -17,7 +17,9 @@ function App() {
 
   useEffect(() => {
     api.getUser()
-    .then(user => setCurrentUser(user));
+    .then(user => {
+      setCurrentUser(user);
+    });
   }, [])
 
   const handleEditAvatarClick = () => {
@@ -43,6 +45,14 @@ function App() {
     setSelectedCard(card);
   }
 
+  const handleUpdateUser = (data) => {
+    api.updateUser(data)
+      .then(user => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
+  }
+  
   return (
     <div className="page">
       <currentUserContext.Provider value={currentUser}>
@@ -57,7 +67,8 @@ function App() {
 
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups} 
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
 
         <PopupWithForm
