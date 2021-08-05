@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { currentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
 export default function EditProfilePopup (props) {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState();
+    const [description, setDescription] = useState();
 
-    const handleNameChange = (e) => {
-      setName(e.target.value);
-    }
+    const currentUser = useContext(currentUserContext);
+    
+    useEffect(() => {
+      setName(currentUser.name || '');
+      setDescription(currentUser.about || '');
+    }, [currentUser]);
 
-    const handleAboutChange = (e) => {
-      setDescription(e.target.value);
+    const handleChange = (e) => {
+      e.target.name === 'name'
+        ? setName(e.target.value)
+        : setDescription(e.target.value);
     }
 
     return (
@@ -22,12 +28,12 @@ export default function EditProfilePopup (props) {
           onClose={props.onClose}>
           <label htmlFor="name-input" className="form__label">
             <input type="text" name="name" value={name} id="name-input" placeholder="Имя" className="form__input" minLength="2" maxLength="40"
-                  required onChange={handleNameChange} />
+                  required onChange={handleChange} />
             <span className="form__input-error form__input-error_visible name-input-error"></span>
           </label>
           <label htmlFor="about-input" className="form__label">
             <input type="text" name="about" value={description} id="about-input" placeholder="Занятие" className="form__input" minLength="2" maxLength="200"
-                  required onChange={handleAboutChange} />
+                  required onChange={handleChange} />
             <span className="form__input-error form__input-error_visible about-input-error"></span>
           </label>
         </PopupWithForm>
