@@ -3,6 +3,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 import {useEffect, useState} from "react";
 import { api } from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
@@ -16,7 +17,9 @@ function App() {
 
   useEffect(() => {
     api.getUser()
-    .then(user => setCurrentUser(user));
+    .then(user => {
+      setCurrentUser(user);
+    });
   }, [])
 
   const handleEditAvatarClick = () => {
@@ -42,6 +45,14 @@ function App() {
     setSelectedCard(card);
   }
 
+  const handleUpdateUser = (data) => {
+    api.updateUser(data)
+      .then(user => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
+  }
+  
   return (
     <div className="page">
       <currentUserContext.Provider value={currentUser}>
@@ -54,23 +65,11 @@ function App() {
         />
         <Footer />
 
-        <PopupWithForm
-          name={'edit-profile'}
-          title={'Редактировать профиль'}
-          buttonText={'Сохранить'}
+        <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}>
-          <label htmlFor="name-input" className="form__label">
-            <input type="text" name="name" id="name-input" placeholder="Имя" className="form__input" minLength="2" maxLength="40"
-                  required />
-            <span className="form__input-error form__input-error_visible name-input-error"></span>
-          </label>
-          <label htmlFor="about-input" className="form__label">
-            <input type="text" name="about" id="about-input" placeholder="Занятие" className="form__input" minLength="2" maxLength="200"
-                  required />
-            <span className="form__input-error form__input-error_visible about-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name={'avatar'}
