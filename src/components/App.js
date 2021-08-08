@@ -7,6 +7,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import {useEffect, useState} from "react";
 import { api } from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -52,44 +53,45 @@ function App() {
         closeAllPopups();
       })
   }
+
+  const handleUpdateAvatar = (data) => {
+    api.changeAvatar(data)
+      .then(user => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
+  }
   
   return (
     <div className="page">
       <currentUserContext.Provider value={currentUser}>
+
         <Header />
+
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-        />
+          onCardClick={handleCardClick} />
+
         <Footer />
 
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-        />
+          onUpdateUser={handleUpdateUser} />
 
-        <PopupWithForm
-          name={'avatar'}
-          title={'Обновить аватар'}
-          buttonText={'Изменить'}
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}>
-          <label htmlFor="avatar-link-input" className="form__label">
-            <input type="url" name="avatar" id="avatar-link-input" placeholder="Ссылка на картинку"
-                  className="form__input" required />
-            <span className="form__input-error form__input-error_visible avatar-link-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+          onClose={closeAllPopups} />
 
         <PopupWithForm
           name={'add-card'}
           title={'Новое место'}
           buttonText={'Добавить'}
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
+          onClose={closeAllPopups} >
           <label htmlFor="place-name-input" className="form__label">
             <input type="text" name="name" id="place-name-input" placeholder="Название" className="form__input"
                   minLength="2" required />
@@ -105,6 +107,7 @@ function App() {
         <PopupWithForm name='confirmation' title={'Вы уверены?'} buttonText={'Да'} onClose={closeAllPopups}/>
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+
       </currentUserContext.Provider>
     </div>
   );
