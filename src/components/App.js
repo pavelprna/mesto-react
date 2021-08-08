@@ -4,10 +4,11 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -83,6 +84,14 @@ function App() {
         closeAllPopups();
       })
   }
+
+  const handleAddPlaceSubmit = (data) => {
+    api.createCard(data)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+  }
   
   return (
     <div className="page">
@@ -111,23 +120,10 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
           onClose={closeAllPopups} />
 
-        <PopupWithForm
-          name={'add-card'}
-          title={'Новое место'}
-          buttonText={'Добавить'}
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups} >
-          <label htmlFor="place-name-input" className="form__label">
-            <input type="text" name="name" id="place-name-input" placeholder="Название" className="form__input"
-                  minLength="2" required />
-            <span className="form__input-error form__input-error_visible place-name-input-error"></span>
-          </label>
-          <label htmlFor="place-link-input" className="form__label">
-            <input type="url" name="link" id="place-link-input" placeholder="Ссылка на картинку"
-                  className="form__input" required />
-            <span className="form__input-error form__input-error_visible place-link-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit} />
 
         <PopupWithForm name='confirmation' title={'Вы уверены?'} buttonText={'Да'} onClose={closeAllPopups}/>
 
