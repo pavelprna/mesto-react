@@ -1,6 +1,6 @@
 function ImagePopup(props) {
   return (
-    <div className={`popup popup_content_place-image ${props.card ? 'popup_opened' : ''}`}>
+    <div className={`popup popup_content_place-image ${props.isOpen ? 'popup_opened' : ''}`}>
       <div className="popup__container popup__container_content_place-image">
         <button onClick={props.onClose} className="popup__close button"/>
         <figure className="view-fullscreen">

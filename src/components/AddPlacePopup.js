@@ -16,8 +16,9 @@ export default function AddPlacePopup(props) {
       name,
       link: link.current.value,
     });
+    
     setName('');
-        link.current.value = '';
+    link.current.value = '';
   }
 
   return (
