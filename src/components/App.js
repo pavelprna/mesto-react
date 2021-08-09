@@ -17,15 +17,19 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    api.getUser()
-    .then(user => {
-      setCurrentUser(user);
-    });
-    api.getInitialCards()
-      .then(cards => setCards(cards))
-      .catch(err => Error(err));
+    Promise.all([
+      api.getUser()
+        .then(user => setCurrentUser(user)),
+      api.getInitialCards()
+        .then(cards => setCards(cards))
+        .catch(err => Error(err))
+    ])
+    .then(() => setIsLoaded(true))
+
+    
   }, [])
 
   const handleEditAvatarClick = () => {
@@ -106,7 +110,8 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick} />
+          onCardClick={handleCardClick}
+          isLoaded={isLoaded} />
 
         <Footer />
 

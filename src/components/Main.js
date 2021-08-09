@@ -1,19 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext";
-import {api} from "../utils/api";
 import Card from "./Card";
+import PageLoader from "./PageLoader";
 
 function Main(props) {
   const currentUser = React.useContext(currentUserContext);
-  
 
-  useEffect(() => {
-    
-  }, []);
-
-  
-
-  return (
+  return !props.isLoaded
+  ? <PageLoader />
+  : (
     <main className="content">
 
       <section className="profile">
