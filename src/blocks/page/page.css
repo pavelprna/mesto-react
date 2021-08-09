@@ -5,7 +5,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 19px [center] 1fr 19px;
-  grid-auto-rows: max-content;
+  grid-template-rows: auto 1fr auto;
 }
 
 @media (min-width: 918px) {

@@ -1,38 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext";
-import {api} from "../utils/api";
 import Card from "./Card";
+import PageLoader from "./PageLoader";
 
 function Main(props) {
-  const [cards, setCards] = useState([]);
-
   const currentUser = React.useContext(currentUserContext);
 
-  useEffect(() => {
-    api.getInitialCards()
-      .then(cards => setCards(cards))
-      .catch(err => Error(err));
-  }, []);
-
-  const handleCardLike = (card) => {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
-    api.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      })
-      .catch(err => Error(err));
-  }
-
-  const handleCardDelete = (card) => {
-    api.deleteCard(card._id)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== card._id))
-      })
-      .catch(err => Error(err));
-  }
-
-  return (
+  return !props.isLoaded
+  ? <PageLoader />
+  : (
     <main className="content">
 
       <section className="profile">
@@ -55,13 +31,13 @@ function Main(props) {
 
       <section className="elements" aria-label="Карточки мест">
         <ul className="elements__list">
-          {cards.map(item => {
+          {props.cards.map(item => {
             return (
               <Card
                 card={item}
                 onCardClick={props.onCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
+                onCardLike={props.onCardLike}
+                onCardDelete={props.onCardDelete}
                 key={item._id}
               />
             )
