@@ -27,11 +27,9 @@ function App() {
         .then(user => setCurrentUser(user)),
       api.getInitialCards()
         .then(cards => setCards(cards))
-        .catch(err => Error(err))
     ])
     .then(() => setIsLoaded(true))
-
-    
+    .catch(err => Error(err));
   }, [])
 
   const handleEditAvatarClick = () => {
@@ -90,6 +88,7 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
+      .catch(err => Error(err));
   }
 
   const handleUpdateAvatar = (data) => {
@@ -98,6 +97,7 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
+      .catch(err => Error(err));
   }
 
   const handleAddPlaceSubmit = (data) => {
@@ -106,6 +106,7 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
+      .catch(err => Error(err));
   }
   
   return (
