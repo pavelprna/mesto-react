@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { useEffect, useState } from "react";
-import { api } from "../utils/api";
+import api from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
