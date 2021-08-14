@@ -19,17 +19,16 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      api.getUser()
-        .then(user => setCurrentUser(user)),
-      api.getInitialCards()
-        .then(cards => setCards(cards))
-    ])
-    .then(() => setIsLoaded(true))
-    .catch(err => Error(err));
+    Promise.all([api.getUser(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setCurrentUser(user);
+        setCards(cards);
+      })
+      .catch(err => Error(err))
+      .finally(() => setIsLoaded(false));
   }, [])
 
   const handleEditAvatarClick = () => {

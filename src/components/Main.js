@@ -6,7 +6,7 @@ import PageLoader from "./PageLoader";
 function Main({ cards, onCardLike, onCardDelete, onCardClick, onEditProfile, onEditAvatar, onAddPlace, isLoaded }) {
   const currentUser = React.useContext(currentUserContext);
 
-  return !isLoaded
+  return isLoaded
   ? <PageLoader />
   : (
     <main className="content">
