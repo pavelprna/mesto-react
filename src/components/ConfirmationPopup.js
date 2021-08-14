@@ -1,10 +1,10 @@
 import PopupWithForm from "./PopupWithForm";
 
-export default function ConfirmationPopup(props) {
+export default function ConfirmationPopup({ card, isOpen, onClose, onConfirm }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    props.onConfirm(props.card);
+    onConfirm(card);
   }
 
   return (
@@ -12,8 +12,8 @@ export default function ConfirmationPopup(props) {
       name='confirmation'
       title={'Вы уверены?'}
       buttonText={'Да'}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit} />
   )
 }

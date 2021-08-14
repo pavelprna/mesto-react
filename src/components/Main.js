@@ -3,41 +3,41 @@ import { currentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 import PageLoader from "./PageLoader";
 
-function Main(props) {
+function Main({ cards, onCardLike, onCardDelete, onCardClick, onEditProfile, onEditAvatar, onAddPlace, isLoaded }) {
   const currentUser = React.useContext(currentUserContext);
 
-  return !props.isLoaded
+  return !isLoaded
   ? <PageLoader />
   : (
     <main className="content">
 
       <section className="profile">
         <button
-          onClick={props.onEditAvatar}
+          onClick={onEditAvatar}
           className="button profile__avatar-button">
           <img src={currentUser.avatar} alt=" " className="profile__avatar"/>
         </button>
         <div className="profile__info">
           <h1 className="profile__title">{currentUser.name}</h1>
           <button
-            onClick={props.onEditProfile}
+            onClick={onEditProfile}
             className="profile__edit-button button"/>
           <p className="profile__subtitle">{currentUser.about}</p>
         </div>
         <button
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
           type="button" className="profile__add-button button"/>
       </section>
 
       <section className="elements" aria-label="Карточки мест">
         <ul className="elements__list">
-          {props.cards.map(item => {
+          {cards.map(item => {
             return (
               <Card
                 card={item}
-                onCardClick={props.onCardClick}
-                onCardLike={props.onCardLike}
-                onCardDelete={props.onCardDelete}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
                 key={item._id}
               />
             )
