@@ -27,7 +27,7 @@ function App() {
         setCurrentUser(user);
         setCards(cards);
       })
-      .catch(err => Error(err))
+      .catch(err => console.log(err))
       .finally(() => setIsLoaded(false));
   }, [])
 
@@ -64,7 +64,7 @@ function App() {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleCardDelete = (card) => {
@@ -73,7 +73,7 @@ function App() {
         setCards((state) => state.filter((c) => c._id !== card._id));
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const confirmCardDelete = (card) => {
@@ -87,7 +87,7 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleUpdateAvatar = (data) => {
@@ -96,7 +96,7 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleAddPlaceSubmit = (data) => {
@@ -105,7 +105,7 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
   
   return (
