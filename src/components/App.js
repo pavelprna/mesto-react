@@ -19,17 +19,16 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      api.getUser()
-        .then(user => setCurrentUser(user)),
-      api.getInitialCards()
-        .then(cards => setCards(cards))
-    ])
-    .then(() => setIsLoaded(true))
-    .catch(err => Error(err));
+    Promise.all([api.getUser(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setCurrentUser(user);
+        setCards(cards);
+      })
+      .catch(err => console.log(err))
+      .finally(() => setIsLoaded(false));
   }, [])
 
   const handleEditAvatarClick = () => {
@@ -65,7 +64,7 @@ function App() {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleCardDelete = (card) => {
@@ -74,7 +73,7 @@ function App() {
         setCards((state) => state.filter((c) => c._id !== card._id));
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const confirmCardDelete = (card) => {
@@ -88,7 +87,7 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleUpdateAvatar = (data) => {
@@ -97,16 +96,16 @@ function App() {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
 
   const handleAddPlaceSubmit = (data) => {
     api.createCard(data)
       .then(newCard => {
-        setCards([newCard, ...cards]);
+        setCards((state) => [newCard, ...state]);
         closeAllPopups();
       })
-      .catch(err => Error(err));
+      .catch(err => console.log(err));
   }
   
   return (

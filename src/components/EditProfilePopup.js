@@ -2,27 +2,28 @@ import { useContext, useEffect, useState } from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditProfilePopup (props) {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+export default function EditProfilePopup ({ isOpen, onClose, onUpdateUser }) {
+    const [values, setValues] = useState({ name: '', about: '' });
     const currentUser = useContext(currentUserContext);
-    
     useEffect(() => {
-      setName(currentUser.name || '');
-      setDescription(currentUser.about || '');
-    }, [currentUser]);
+      setValues({
+        name: (currentUser.name || ''),
+        about: (currentUser.about || ''),
+      });
+    }, [currentUser, isOpen]);
 
     const handleChange = (e) => {
-      e.target.name === 'name'
-        ? setName(e.target.value)
-        : setDescription(e.target.value);
+      const target = e.target;
+      const value = target.value;
+      const name = target.name;
+      setValues({ ...values, [name]: value });
     }
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      props.onUpdateUser({
-        name,
-        about: description,
+      onUpdateUser({
+        name: values.name,
+        about: values.about,
       });
     }
 
@@ -31,16 +32,16 @@ export default function EditProfilePopup (props) {
           name={'edit-profile'}
           title={'Редактировать профиль'}
           buttonText={'Сохранить'}
-          isOpen={props.isOpen}
-          onClose={props.onClose}
+          isOpen={isOpen}
+          onClose={onClose}
           onSubmit={handleSubmit}>
           <label htmlFor="name-input" className="form__label">
-            <input type="text" name="name" value={name} id="name-input" placeholder="Имя" className="form__input" minLength="2" maxLength="40"
+            <input type="text" name="name" value={values.name} id="name-input" placeholder="Имя" className="form__input" minLength="2" maxLength="40"
                   required onChange={handleChange} />
             <span className="form__input-error form__input-error_visible name-input-error"></span>
           </label>
           <label htmlFor="about-input" className="form__label">
-            <input type="text" name="about" value={description} id="about-input" placeholder="Занятие" className="form__input" minLength="2" maxLength="200"
+            <input type="text" name="about" value={values.about} id="about-input" placeholder="Занятие" className="form__input" minLength="2" maxLength="200"
                   required onChange={handleChange} />
             <span className="form__input-error form__input-error_visible about-input-error"></span>
           </label>

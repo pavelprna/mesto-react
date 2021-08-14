@@ -1,9 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup(props) {
+export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const [name, setName] = useState('');
   const link = useRef('');
+
+  useEffect(() => {
+    setName('');
+    link.current.value = '';
+  }, [isOpen]);
 
   const handleChange = (e) => {
     setName(e.target.value);
@@ -12,13 +17,10 @@ export default function AddPlacePopup(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    props.onAddPlace({
+    onAddPlace({
       name,
       link: link.current.value,
     });
-    
-    setName('');
-    link.current.value = '';
   }
 
   return (
@@ -26,8 +28,8 @@ export default function AddPlacePopup(props) {
       name={'add-card'}
       title={'Новое место'}
       buttonText={'Добавить'}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit} >
       <label htmlFor="place-name-input" className="form__label">
         <input type="text" name="name" value={name} onChange={handleChange} id="place-name-input" placeholder="Название" className="form__input"

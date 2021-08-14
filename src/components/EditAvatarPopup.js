@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditAvatarPopup(props) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const avatarRef = useRef('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    props.onUpdateAvatar({
+    onUpdateAvatar({
       avatar: avatarRef.current.value,
     })
   }
@@ -17,8 +17,8 @@ export default function EditAvatarPopup(props) {
       name={'avatar'}
       title={'Обновить аватар'}
       buttonText={'Изменить'}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}>
       <label htmlFor="avatar-link-input" className="form__label">
         <input ref={avatarRef} type="url" name="avatar" id="avatar-link-input" placeholder="Ссылка на картинку"
